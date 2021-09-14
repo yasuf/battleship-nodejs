@@ -19,24 +19,29 @@ class GameController {
     }
 
     static InitializeCellsHit() {
-        // console.log("InitializeCellsHit")
-        // console.log(Battleship.ROWS, Battleship.LINES)
         for (let i=0; i<8; i++) {
             this.availablePlayerCells[i] = [];
             for (let j=0; j<8; j++) {
-                this.availablePlayerCells[i].push(` `)
+                this.availablePlayerCells[i].push(`[ ]`)
             }
         }
-        // console.log(this.availablePlayerCells);
     }
 
     static PaintBoardState() {
-        console.log(this.availablePlayerCells);
+        var buffer = '';
+        for(let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                buffer += this.availablePlayerCells[i][j];
+            }
+            buffer += '\n';
+        }
+        console.log(buffer);
     }
 
-    static AddTurnToBoard(shot) {
+    static AddTurnToBoard(shot, isHit) {
         var column = Letters.get(shot.column).value;
-        this.availablePlayerCells[column-1][shot.row-1] = "x";
+        var cell = isHit ? '[x]' : '[o]';
+        this.availablePlayerCells[column-1][shot.row-1] = cell;
     }
 
     static CheckIsHit(ships, shot) {
