@@ -6,6 +6,8 @@ const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
 
 class Battleship {
+    static ROWS = 8;
+    static LINES = 8;
 
     start() {
         console.log(cliColor.magenta("                                     |__"));
@@ -23,6 +25,7 @@ class Battleship {
         console.log(cliColor.magenta(" \\_________________________________________________________________________|"));
         console.log();
 
+        gameController.InitializeCellsHit();
         this.InitializeGame();
         this.StartGame();
     }
@@ -45,10 +48,12 @@ class Battleship {
             console.log();
             console.log();
             console.log();
+            gameController.PaintBoardState();
             console.log(cliColor.yellow("Turn: " + turnNumber));
             console.log(cliColor.yellow("Player, it's your turn"));
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
+            gameController.AddTurnToBoard(position);
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
             if (isHit) {
                 beep();
@@ -61,6 +66,9 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+                console.log("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                console.log("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^");
+                console.log("     ^^^ ^^^ ^^ ^^^ ^ ^ ^^ ^ ^^ ^^^^ ^^ ^^^ ^^  ");
             }
 
             console.log(cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
@@ -92,11 +100,9 @@ class Battleship {
     }
 
     GetRandomPosition() {
-        var rows = 8;
-        var lines = 8;
-        var rndColumn = Math.floor((Math.random() * lines));
+        var rndColumn = Math.floor((Math.random() * this.LINES));
         var letter = letters.get(rndColumn + 1);
-        var number = Math.floor((Math.random() * rows));
+        var number = Math.floor((Math.random() * this.ROWS));
         var result = new position(letter, number);
         return result;
     }
