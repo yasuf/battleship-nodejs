@@ -1,5 +1,6 @@
 const Letters = require("./letters.js");
 const Battleship = require("../battleship.js");
+var constants = require('../constants.js');
 
 class GameController {
 
@@ -19,9 +20,9 @@ class GameController {
     }
 
     static InitializeCellsHit() {
-        for (let i=0; i<8; i++) {
+        for (let i=0; i < constants.ROWS; i++) {
             this.availablePlayerCells[i] = [];
-            for (let j=0; j<8; j++) {
+            for (let j=0; j < constants.LINES; j++) {
                 this.availablePlayerCells[i].push(`[ ]`)
             }
         }
@@ -29,8 +30,8 @@ class GameController {
 
     static PaintBoardState() {
         var buffer = '';
-        for(let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
+        for(let i = 0; i < constants.ROWS; i++) {
+            for (let j = 0; j < constants.LINES; j++) {
                 buffer += this.availablePlayerCells[i][j];
             }
             buffer += '\n';
