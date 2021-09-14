@@ -1,4 +1,10 @@
+const Letters = require("./letters.js");
+const Battleship = require("../battleship.js");
+
 class GameController {
+
+    static availablePlayerCells = [];
+
     static InitializeShips() {
         var colors = require("cli-color");
         const Ship = require("./ship.js");
@@ -10,6 +16,27 @@ class GameController {
             new Ship("Patrol Boat", 2, colors.Orange)
         ];
         return ships;
+    }
+
+    static InitializeCellsHit() {
+        // console.log("InitializeCellsHit")
+        // console.log(Battleship.ROWS, Battleship.LINES)
+        for (let i=0; i<8; i++) {
+            this.availablePlayerCells[i] = [];
+            for (let j=0; j<8; j++) {
+                this.availablePlayerCells[i].push(` `)
+            }
+        }
+        // console.log(this.availablePlayerCells);
+    }
+
+    static PaintBoardState() {
+        console.log(this.availablePlayerCells);
+    }
+
+    static AddTurnToBoard(shot) {
+        var column = Letters.get(shot.column).value;
+        this.availablePlayerCells[column-1][shot.row-1] = "x";
     }
 
     static CheckIsHit(ships, shot) {

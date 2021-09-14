@@ -6,6 +6,8 @@ const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
 
 class Battleship {
+    static ROWS = 8;
+    static LINES = 8;
 
     start() {
         console.log(cliColor.magenta("                                     |__"));
@@ -23,6 +25,7 @@ class Battleship {
         console.log(cliColor.magenta(" \\_________________________________________________________________________|"));
         console.log();
 
+        gameController.InitializeCellsHit();
         this.InitializeGame();
         this.StartGame();
     }
@@ -43,10 +46,14 @@ class Battleship {
         do {
             console.log();
             console.log();
+            console.log();
+            console.log();
+            gameController.PaintBoardState();
             console.log(cliColor.yellow("Turn: " + turnNumber));
             console.log(cliColor.yellow("Player, it's your turn"));
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
+            gameController.AddTurnToBoard(position);
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
             this.PrintHitsMisses(isHit)
 
@@ -54,7 +61,6 @@ class Battleship {
 
             var computerPos = this.GetRandomPosition();
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
-            console.log();
             console.log(cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`)));
             this.PrintHitsMisses(isHit)
         }
@@ -98,18 +104,16 @@ class Battleship {
              console.log(cliColor.blue("         `XIXX: :HHHHHI. .HMMMXXH: !XIHHHII"));
              console.log(cliColor.blue("          `X!:IXIMHHXHI.  IHHH!HX.!IIXH!.I"));
              console.log(cliColor.blue(".          `H:.:!IHHXII:  .XH!!HMI::X! :X"));
-             console.log(cliColor.blue("            :MI. .!!II!:  :II.!H!.:I:.I		"));		  
-             console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")); 
+             console.log(cliColor.blue("            :MI. .!!II!:  :II.!H!.:I:.I		"));
+             console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
              console.log(cliColor.blue("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^"));
         }
     }
 
     GetRandomPosition() {
-        var rows = 8;
-        var lines = 8;
-        var rndColumn = Math.floor((Math.random() * lines));
+        var rndColumn = Math.floor((Math.random() * this.LINES));
         var letter = letters.get(rndColumn + 1);
-        var number = Math.floor((Math.random() * rows));
+        var number = Math.floor((Math.random() * this.ROWS));
         var result = new position(letter, number);
         return result;
     }
