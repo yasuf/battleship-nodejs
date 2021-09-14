@@ -47,11 +47,17 @@ class Battleship {
             console.log(cliColor.yellow("Turn: " + turnNumber));
             this.PrintEnemyFleetStatus();
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
-            var position = Battleship.ParsePosition(readline.question());
+            var coordinates = readline.question()
+            if (coordinates === "") continue;
+            var position = Battleship.ParsePosition(coordinates);
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
             gameController.AddTurnToBoard(position, isHit);
 
-            console.log(cliColor.yellow(isHit ? "Hit" : "Miss"));
+            if (isHit) {
+                console.log(cliColor.green("Hit!"));
+            } else {
+                console.log(cliColor.white("Miss."));
+            }
             this.PrintHitsMisses(isHit);
             console.log();
             console.log("Board state:");
@@ -60,6 +66,7 @@ class Battleship {
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
             console.log(cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`)));
             this.PrintHitsMisses(isHit)
+            this.CheckWinCondition();
             turnNumber += 1;
         }
         while (this.noWinner);
@@ -97,8 +104,9 @@ class Battleship {
     }
 
     CheckWinCondition() {
-        let humanPlayerWon = this.myFleet.every(ship => ship.isSunk());
-        let cpuPlayerWon = this.enemyFleet.every(ship => ship.isSunk());
+        let cpuPlayerWon = this.myFleet.every(ship => ship.isSunk());
+        let humanPlayerWon = this.enemyFleet.every(ship => ship.isSunk());
+
         if (humanPlayerWon || cpuPlayerWon) {
             this.noWinner = false;
         }
