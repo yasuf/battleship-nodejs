@@ -41,6 +41,7 @@ class Battleship {
         console.log(cliColor.yellow("   \\    \\_/"));
         console.log(cliColor.yellow("    \"\"\"\""));
         var turnNumber = 1;
+        var computerGuesses = [];
         do {
             console.log();
             console.log();
@@ -58,6 +59,11 @@ class Battleship {
             console.log(cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
 
             var computerPos = this.GetRandomPosition();
+            while(computerGuesses.includes(computerPos)) {
+                computerPos = this.GetRandomPosition();
+            }
+            computerGuesses.push(computerPos);
+
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
             console.log(cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`)));
             this.PrintHitsMisses(isHit)
