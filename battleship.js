@@ -53,8 +53,8 @@ class Battleship {
             console.log(cliColor.yellow("Player, it's your turn"));
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
-            gameController.AddTurnToBoard(position);
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
+            gameController.AddTurnToBoard(position, isHit);
             this.PrintHitsMisses(isHit)
 
             console.log(cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
