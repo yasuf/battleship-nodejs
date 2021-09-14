@@ -40,9 +40,11 @@ class GameController {
     }
 
     static AddTurnToBoard(shot, isHit) {
-        var column = Letters.get(shot.column).value;
-        var cell = isHit ? '[x]' : '[o]';
-        this.availablePlayerCells[column-1][shot.row-1] = cell;
+        if (shot) {
+            var column = Letters.get(shot.column).value;
+            var cell = isHit ? '[x]' : '[o]';
+            this.availablePlayerCells[column-1][shot.row-1] = cell;
+        }
     }
 
     static CheckIsHit(ships, shot) {
@@ -53,8 +55,10 @@ class GameController {
         var returnvalue = false;
         ships.forEach(function (ship) {
             ship.positions.forEach(position => {
-                if (position.row == shot.row && position.column == shot.column)
+                if (position.row == shot.row && position.column == shot.column) {
+                    position.isHit = true;
                     returnvalue = true;
+                }
             });
         });
         return returnvalue;

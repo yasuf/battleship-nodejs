@@ -42,22 +42,21 @@ class Battleship {
         console.log(cliColor.yellow("    \"\"\"\""));
         var turnNumber = 1;
         var computerGuesses = [];
+        this.noWinner = true;
         do {
-            console.log();
-            console.log();
-            console.log();
-            console.log();
-            gameController.PaintBoardState();
+            console.log("-------------------------------------");
             console.log(cliColor.yellow("Turn: " + turnNumber));
-            console.log(cliColor.yellow("Player, it's your turn"));
+            this.PrintEnemyFleetStatus();
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
             gameController.AddTurnToBoard(position, isHit);
-            this.PrintHitsMisses(isHit)
 
-            console.log(cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
-
+            console.log(cliColor.yellow(isHit ? "Hit" : "Miss"));
+            this.PrintHitsMisses(isHit);
+            console.log();
+            console.log("Board state:");
+            gameController.PaintBoardState();
             var computerPos = this.GetRandomPosition();
             while(computerGuesses.find( guess => guess.row === computerPos.row && guess.column === computerPos.column)) {
                 computerPos = this.GetRandomPosition();
@@ -69,7 +68,7 @@ class Battleship {
             this.PrintHitsMisses(isHit)
             turnNumber += 1;
         }
-        while (true);
+        while (this.noWinner);
     }
 
     static ParsePosition(input) {
@@ -93,25 +92,28 @@ class Battleship {
             console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
             console.log(cliColor.blue("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^"));
             console.log(cliColor.blue("     ^^^ ^^^ ^^ ^^^ ^ ^ ^^ ^ ^^ ^^^^ ^^ ^^^ ^^  "));
-        } else {
-            console.log(cliColor.blue("                    .MHMH           X:"));
-            console.log(cliColor.blue("                    :HMMH.      .X!HMM."));
-            console.log(cliColor.blue("                    `HMHM!      !MHMMX"));
-            console.log(cliColor.blue("                     HMHHH.      IMM!"));
-            console.log(cliColor.blue(".                    XHHHHM!"));
-            console.log(cliColor.blue(" XMMM!.              IMHXHMM.                  :I."));
-            console.log(cliColor.blue("  `HMHMMI.          :HHXXHH'                .AMH'"));
-            console.log(cliColor.blue("   `VMHHM!          HHXIHH                :MHH'"));
-            console.log(cliColor.blue(".   `!HHHA.         XHIIIX.    .MX     .:HD  AHHV"));
-            console.log(cliColor.blue(".    `HHHA.         !HI!IXI    AM:    AMHH'.:HHM"));
-            console.log(cliColor.blue(".      `XXHA.      . `HI!:IX   :HH    AHHMV .IX"));
-            console.log(cliColor.blue("        `!XIX:.  AMA:.H!::IX.  !HX   AHHHV :I"));
-            console.log(cliColor.blue("         `XIXX: :HHHHHI. .HMMMXXH: !XIHHHII"));
-            console.log(cliColor.blue("          `X!:IXIMHHXHI.  IHHH!HX.!IIXH!.I"));
-            console.log(cliColor.blue(".          `H:.:!IHHXII:  .XH!!HMI::X! :X"));
-            console.log(cliColor.blue("            :MI. .!!II!:  :II.!H!.:I:.I		"));
-            console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
-            console.log(cliColor.blue("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^"));
+        }
+    }
+
+    PrintEnemyFleetStatus() {
+        console.log(cliColor.yellow("Enemy Ships status: "));
+        this.enemyFleet.forEach(ship => {
+            console.log(`${ship.name} (${ship.size}): ${ship.isSunk() ? cliColor.green("Sunk") : cliColor.red("Not Sunk")}`)
+        });
+    }
+
+    CheckWinCondition() {
+        let humanPlayerWon = this.myFleet.every(ship => ship.isSunk());
+        let cpuPlayerWon = this.enemyFleet.every(ship => ship.isSunk());
+        if (humanPlayerWon || cpuPlayerWon) {
+            this.noWinner = false;
+        }
+
+        if (humanPlayerWon) {
+            console.log(cliColor.green("Congratulations!! You won the war against the evil Milton"));
+        }
+        if (cpuPlayerWon) {
+            console.log(cliColor.red("You lost, Milton took over the world"));
         }
     }
 
