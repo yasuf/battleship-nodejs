@@ -40,7 +40,7 @@ class Battleship {
         console.log(cliColor.yellow("  |     /_\\'"));
         console.log(cliColor.yellow("   \\    \\_/"));
         console.log(cliColor.yellow("    \"\"\"\""));
-        var turnNumber = 0;
+        var turnNumber = 1;
         do {
             console.log();
             console.log();
@@ -61,6 +61,7 @@ class Battleship {
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
             console.log(cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`)));
             this.PrintHitsMisses(isHit)
+            turnNumber += 1;
         }
         while (true);
     }
