@@ -118,7 +118,7 @@ class Battleship {
     GetRandomPosition() {
         var rndColumn = Math.floor((Math.random() * constants.LINES));
         var letter = letters.get(rndColumn + 1);
-        var number = Math.ceil((Math.random() * constants.ROWS));
+        var number = Math.floor((Math.random() * constants.ROWS)) + 1;
         var result = new position(letter, number);
         return result;
     }
