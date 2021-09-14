@@ -4,11 +4,9 @@ const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+var constants = require('./constants.js');
 
 class Battleship {
-    static ROWS = 8;
-    static LINES = 8;
-
     start() {
         console.log(cliColor.magenta("                                     |__"));
         console.log(cliColor.magenta("                                     |\\/"));
@@ -90,30 +88,30 @@ class Battleship {
             console.log(cliColor.blue("     ^^^ ^^^ ^^ ^^^ ^ ^ ^^ ^ ^^ ^^^^ ^^ ^^^ ^^  "));
         } else {
             console.log(cliColor.blue("                    .MHMH           X:"));
-             console.log(cliColor.blue("                    :HMMH.      .X!HMM."));
-             console.log(cliColor.blue("                    `HMHM!      !MHMMX"));
-             console.log(cliColor.blue("                     HMHHH.      IMM!"));
-             console.log(cliColor.blue(".                    XHHHHM!"));
-             console.log(cliColor.blue(" XMMM!.              IMHXHMM.                  :I."));
-             console.log(cliColor.blue("  `HMHMMI.          :HHXXHH'                .AMH'"));
-             console.log(cliColor.blue("   `VMHHM!          HHXIHH                :MHH'"));
-             console.log(cliColor.blue(".   `!HHHA.         XHIIIX.    .MX     .:HD  AHHV"));
-             console.log(cliColor.blue(".    `HHHA.         !HI!IXI    AM:    AMHH'.:HHM"));
-             console.log(cliColor.blue(".      `XXHA.      . `HI!:IX   :HH    AHHMV .IX"));
-             console.log(cliColor.blue("        `!XIX:.  AMA:.H!::IX.  !HX   AHHHV :I"));
-             console.log(cliColor.blue("         `XIXX: :HHHHHI. .HMMMXXH: !XIHHHII"));
-             console.log(cliColor.blue("          `X!:IXIMHHXHI.  IHHH!HX.!IIXH!.I"));
-             console.log(cliColor.blue(".          `H:.:!IHHXII:  .XH!!HMI::X! :X"));
-             console.log(cliColor.blue("            :MI. .!!II!:  :II.!H!.:I:.I		"));
-             console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
-             console.log(cliColor.blue("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^"));
+            console.log(cliColor.blue("                    :HMMH.      .X!HMM."));
+            console.log(cliColor.blue("                    `HMHM!      !MHMMX"));
+            console.log(cliColor.blue("                     HMHHH.      IMM!"));
+            console.log(cliColor.blue(".                    XHHHHM!"));
+            console.log(cliColor.blue(" XMMM!.              IMHXHMM.                  :I."));
+            console.log(cliColor.blue("  `HMHMMI.          :HHXXHH'                .AMH'"));
+            console.log(cliColor.blue("   `VMHHM!          HHXIHH                :MHH'"));
+            console.log(cliColor.blue(".   `!HHHA.         XHIIIX.    .MX     .:HD  AHHV"));
+            console.log(cliColor.blue(".    `HHHA.         !HI!IXI    AM:    AMHH'.:HHM"));
+            console.log(cliColor.blue(".      `XXHA.      . `HI!:IX   :HH    AHHMV .IX"));
+            console.log(cliColor.blue("        `!XIX:.  AMA:.H!::IX.  !HX   AHHHV :I"));
+            console.log(cliColor.blue("         `XIXX: :HHHHHI. .HMMMXXH: !XIHHHII"));
+            console.log(cliColor.blue("          `X!:IXIMHHXHI.  IHHH!HX.!IIXH!.I"));
+            console.log(cliColor.blue(".          `H:.:!IHHXII:  .XH!!HMI::X! :X"));
+            console.log(cliColor.blue("            :MI. .!!II!:  :II.!H!.:I:.I		"));
+            console.log(cliColor.blue("   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
+            console.log(cliColor.blue("   ^^^^  ^^  ^^^ ^^ ^^ ^ ^^^ ^ ^^^ ^^^ ^^ ^^^^^"));
         }
     }
 
     GetRandomPosition() {
-        var rndColumn = Math.floor((Math.random() * this.LINES));
+        var rndColumn = Math.floor((Math.random() * constants.LINES));
         var letter = letters.get(rndColumn + 1);
-        var number = Math.floor((Math.random() * this.ROWS));
+        var number = Math.floor((Math.random() * constants.ROWS));
         var result = new position(letter, number);
         return result;
     }
