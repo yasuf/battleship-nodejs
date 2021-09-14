@@ -59,7 +59,7 @@ class Battleship {
             console.log(cliColor.yellow(isHit ? "Yeah ! Nice hit !" : "Miss"));
 
             var computerPos = this.GetRandomPosition();
-            while(computerGuesses.includes(computerPos)) {
+            while(computerGuesses.find( guess => guess.row === computerPos.row && guess.column === computerPos.column)) {
                 computerPos = this.GetRandomPosition();
             }
             computerGuesses.push(computerPos);
@@ -118,7 +118,7 @@ class Battleship {
     GetRandomPosition() {
         var rndColumn = Math.floor((Math.random() * constants.LINES));
         var letter = letters.get(rndColumn + 1);
-        var number = Math.floor((Math.random() * constants.ROWS));
+        var number = Math.ceil((Math.random() * constants.ROWS));
         var result = new position(letter, number);
         return result;
     }
