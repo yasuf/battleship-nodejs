@@ -41,6 +41,7 @@ class Battleship {
         console.log(cliColor.yellow("   \\    \\_/"));
         console.log(cliColor.yellow("    \"\"\"\""));
         var turnNumber = 1;
+        this.noWinner = true;
         do {
             console.log("-------------------------------------");
             console.log(cliColor.yellow("Turn: " + turnNumber));
@@ -61,7 +62,7 @@ class Battleship {
             this.PrintHitsMisses(isHit)
             turnNumber += 1;
         }
-        while (true);
+        while (this.noWinner);
     }
 
     static ParsePosition(input) {
@@ -93,6 +94,21 @@ class Battleship {
         this.enemyFleet.forEach(ship => {
             console.log(`${ship.name} (${ship.size}): ${ship.isSunk() ? cliColor.green("Sunk") : cliColor.red("Not Sunk")}`)
         });
+    }
+
+    CheckWinCondition() {
+        let humanPlayerWon = this.myFleet.every(ship => ship.isSunk());
+        let cpuPlayerWon = this.enemyFleet.every(ship => ship.isSunk());
+        if (humanPlayerWon || cpuPlayerWon) {
+            this.noWinner = false;
+        }
+
+        if (humanPlayerWon) {
+            console.log(cliColor.green("Congratulations!! You won the war against the evil Milton"));
+        }
+        if (cpuPlayerWon) {
+            console.log(cliColor.red("You lost, Milton took over the world"));
+        }
     }
 
     GetRandomPosition() {

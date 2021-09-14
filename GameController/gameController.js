@@ -40,9 +40,11 @@ class GameController {
     }
 
     static AddTurnToBoard(shot, isHit) {
-        var column = Letters.get(shot.column).value;
-        var cell = isHit ? '[x]' : '[o]';
-        this.availablePlayerCells[column-1][shot.row-1] = cell;
+        if (shot) {
+            var column = Letters.get(shot.column).value;
+            var cell = isHit ? '[x]' : '[o]';
+            this.availablePlayerCells[column-1][shot.row-1] = cell;
+        }
     }
 
     static CheckIsHit(ships, shot) {
