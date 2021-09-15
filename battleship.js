@@ -55,7 +55,7 @@ class Battleship {
 
             var message = this.ValidatePosition(position);
             while (message.length > 0) {
-                console.log(message);
+                console.log(cliColor.red(message));
                 console.log(cliColor.yellow("Enter coordinates for your shot :"));
                 coordinates = readline.question()
                 position = Battleship.ParsePosition(coordinates);
@@ -107,6 +107,10 @@ class Battleship {
 
     static ParsePosition(input) {
         var letter = letters.get(input.toUpperCase().substring(0, 1));
+        if (letter == undefined) {
+            letter = '';
+        }
+
         var number = parseInt(input.substring(1, 2), 10);
         return new position(letter, number);
     }
