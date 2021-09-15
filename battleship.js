@@ -43,14 +43,26 @@ class Battleship {
         var turnNumber = 1;
         var computerGuesses = [];
         this.noWinner = true;
+        this.playerGuesses = [];
         do {
             console.log("-------------------------------------");
             console.log(cliColor.yellow("Turn: " + turnNumber));
             this.PrintEnemyFleetStatus();
             console.log(cliColor.yellow("Enter coordinates for your shot :"));
             var coordinates = readline.question()
-            if (coordinates === "") continue;
+            // if (coordinates === "") continue;
             var position = Battleship.ParsePosition(coordinates);
+
+            var message = this.ValidatePosition(position);
+            while (message.length > 0) {
+                console.log(message);
+                console.log(cliColor.yellow("Enter coordinates for your shot :"));
+                coordinates = readline.question()
+                position = Battleship.ParsePosition(coordinates);
+                message = this.ValidatePosition(position);
+            }
+            this.playerGuesses.push(position);
+
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
             gameController.AddTurnToBoard(position, isHit);
 
@@ -76,6 +88,21 @@ class Battleship {
             turnNumber += 1;
         }
         while (this.noWinner);
+    }
+
+    ValidatePosition(position) {
+        var rawInput = `${position.column}${position.row}`
+        const regex = new RegExp(/([A-H]|[a-h]){1}[1-8]/)
+        var message = ''
+        if (!regex.test(rawInput)) {
+            message += 'Please input a position using A-H and numbered from 1-8. '
+        }
+
+        if (this.playerGuesses.find( guess => guess.row === position.row && guess.column === position.column)) {
+            message += `${rawInput} has already been guessed; please input a new, valid position.`
+        }
+
+        return message;
     }
 
     static ParsePosition(input) {
