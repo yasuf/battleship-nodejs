@@ -148,37 +148,37 @@ class Battleship {
         );
 
         this.myFleet.forEach((ship) => {
-            try {
-                this.SetupShip(ship);
-            } catch (error) {
-                console.log();
-                console.log();
-                console.log(cliColor.yellow(`Ship placement entered was invalid, please enter a different position or orientation for the ${ship.name} (size:${ship.size}):`));
-                this.SetupShip(ship);
-            }
+            this.SetupShip(ship);
         });
     }
 
     SetupShip(ship) {
-        console.log();
-        console.log(
-            cliColor.yellow(
-            `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
-            )
-        );
-        const startingPosition = readline.question();
+        try {
+            console.log();
+            console.log(
+                cliColor.yellow(
+                `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
+                )
+            );
+            const startingPosition = readline.question();
 
-        console.log(
-            cliColor.yellow(
-            `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
-            )
-        );
-        const direction = readline.question();
+            console.log(
+                cliColor.yellow(
+                `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
+                )
+            );
+            const direction = readline.question();
 
-        let nextPosition = Battleship.ParsePosition(startingPosition);
-        for (let i = 0; i < ship.size; i++) {
-            ship.addPosition(nextPosition);
-            nextPosition = nextPosition.getNextPosition(direction.toUpperCase());
+            let nextPosition = Battleship.ParsePosition(startingPosition);
+            for (let i = 0; i < ship.size; i++) {
+                ship.addPosition(nextPosition);
+                nextPosition = nextPosition.getNextPosition(direction.toUpperCase());
+            }
+        } catch {
+            console.log();
+            console.log();
+            console.log(cliColor.yellow(`Ship placement entered was invalid, please enter a different position or orientation for the ${ship.name} (size:${ship.size}):`));
+            this.SetupShip(ship);
         }
     }
 
