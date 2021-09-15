@@ -148,27 +148,31 @@ class Battleship {
         );
 
         this.myFleet.forEach(function (ship) {
-        console.log();
-        console.log(
-            cliColor.yellow(
-            `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
-            )
-        );
-        const startingPosition = readline.question();
+            console.log();
+            console.log(
+                cliColor.yellow(
+                `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
+                )
+            );
+            const startingPosition = readline.question();
 
-        console.log(
-            cliColor.yellow(
-            `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
-            )
-        );
-        const direction = readline.question();
+            console.log(
+                cliColor.yellow(
+                `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
+                )
+            );
+            const direction = readline.question();
 
-        let nextPosition = Battleship.ParsePosition(startingPosition);
+            let nextPosition = Battleship.ParsePosition(startingPosition);
             for (let i = 0; i < ship.size; i++) {
                 ship.addPosition(nextPosition);
-                nextPosition = nextPosition.getNextPosition(direction.toLowerCase());
+                nextPosition = nextPosition.getNextPosition(direction.toUpperCase());
             }
         });
+    }
+
+    SetupShip(ship) {
+
     }
 
     InitializeEnemyFleet() {
