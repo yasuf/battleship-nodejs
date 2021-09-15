@@ -9,16 +9,16 @@ class Position {
 
     getNextPosition(direction) {
         switch(direction) {
-            case 'up':
+            case 'U':
                 return new Position(LetterFinder.getPreviousLetter(this.column), this.row)
                 break;
-            case 'down':
+            case 'D':
                 return new Position(LetterFinder.getNextLetter(this.column), this.row)
                 break;
-            case 'left':
+            case 'L':
                 return new Position(this.column, this.row - 1)
                 break;
-            case 'right':
+            case 'R':
                 return new Position(this.column, this.row + 1)
                 break;
             default:

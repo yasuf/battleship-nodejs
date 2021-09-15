@@ -151,14 +151,14 @@ class Battleship {
         console.log();
         console.log(
             cliColor.yellow(
-            `Please enter the starting for the ${ship.name} (size: ${ship.size}):`
+            `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
             )
         );
         const startingPosition = readline.question();
 
         console.log(
             cliColor.yellow(
-            `Please enter the direction of ${ship.name} (size: ${ship.size}) Options: up, down, right, left:`
+            `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
             )
         );
         const direction = readline.question();
