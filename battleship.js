@@ -55,7 +55,7 @@ class Battleship {
 
             var message = this.ValidatePosition(position);
             while (message.length > 0) {
-                console.log(cliColor.red(message));
+                console.log(cliColor.red('Invalid input: ' + message));
                 console.log(cliColor.yellow("Enter coordinates for your shot :"));
                 coordinates = readline.question()
                 position = Battleship.ParsePosition(coordinates);
