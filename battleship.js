@@ -165,24 +165,52 @@ class Battleship {
     }
 
     InitializeGame() {
-        this.InitializeMyFleet();
+        this.InitializeMyFleetByLocationAndDirection();
         this.InitializeEnemyFleet();
     }
 
-    InitializeMyFleet() {
+    InitializeMyFleetByLocationAndDirection() {
         this.myFleet = gameController.InitializeShips();
 
-        console.log(cliColor.yellow("Please position your fleet (Game board size is from A to H and 1 to 8) :"));
+        console.log(
+        cliColor.yellow(
+            "Please position your fleet (Game board size is from A to H and 1 to 8) :"
+        )
+        );
 
-        this.myFleet.forEach(function (ship) {
+        this.myFleet.forEach((ship) => {
+            this.SetupShip(ship);
+        });
+    }
+
+    SetupShip(ship) {
+        try {
             console.log();
-            console.log(cliColor.yellow(`Please enter the positions for the ${ship.name} (size: ${ship.size})`));
-            for (var i = 1; i < ship.size + 1; i++) {
-                console.log(cliColor.yellow(`Enter position ${i} of ${ship.size} (i.e A3):`));
-                const position = readline.question();
-                ship.addPosition(Battleship.ParsePosition(position));
+            console.log(
+                cliColor.yellow(
+                `Please enter the starting position for the ${ship.name} (size: ${ship.size}):`
+                )
+            );
+            const startingPosition = readline.question();
+
+            console.log(
+                cliColor.yellow(
+                `Enter ship orientation: Up (U), Down (D), Right (R), Left (L):`
+                )
+            );
+            const direction = readline.question();
+
+            let nextPosition = Battleship.ParsePosition(startingPosition);
+            for (let i = 0; i < ship.size; i++) {
+                ship.addPosition(nextPosition);
+                nextPosition = nextPosition.getNextPosition(direction.toUpperCase());
             }
-        })
+        } catch {
+            console.log();
+            console.log();
+            console.log(cliColor.yellow(`Ship placement entered was invalid, please enter a different position or orientation for the ${ship.name} (size:${ship.size}):`));
+            this.SetupShip(ship);
+        }
     }
 
     InitializeEnemyFleet() {
